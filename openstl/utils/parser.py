@@ -25,7 +25,7 @@ def create_parser():
                         help='whether to set deterministic options for CUDNN backend (reproducable)')
 
     # dataset parameters
-    parser.add_argument('--batch_size', '-b', default=16, type=int, help='Training batch size')
+    parser.add_argument('--batch_size', '-b', default=4, type=int, help='Training batch size')
     parser.add_argument('--val_batch_size', '-vb', default=16, type=int, help='Validation batch size')
     parser.add_argument('--num_workers', default=4, type=int)
     parser.add_argument('--data_root', default='./data')
@@ -35,7 +35,7 @@ def create_parser():
                                 'weather', 'weather_t2m_5_625', 'weather_mv_4_28_s6_5_625', 'weather_mv_4_4_s6_5_625',
                                 'weather_r_5_625', 'weather_uv10_5_625', 'weather_tcc_5_625', 'weather_t2m_1_40625',
                                 'weather_r_1_40625', 'weather_uv10_1_40625', 'weather_tcc_1_40625',
-                                'sevir_vis', 'sevir_ir069', 'sevir_ir107', 'sevir_vil'],
+                                'sevir_vis', 'sevir_ir069', 'sevir_ir107', 'sevir_vil', 'spi'],
                         help='Dataset name (default: "mmnist")')
     parser.add_argument('--pre_seq_length', default=None, type=int, help='Sequence length before prediction')
     parser.add_argument('--aft_seq_length', default=None, type=int, help='Sequence length after prediction')

@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import torch
+from sklearn.metrics import r2_score
 
 try:
     import lpips
@@ -190,7 +191,7 @@ def metric(pred, true, mean=None, std=None, metrics=['mae', 'mse'],
         true = true * std + mean
     eval_res = {}
     eval_log = ""
-    allowed_metrics = ['mae', 'mse', 'rmse', 'ssim', 'psnr', 'snr', 'lpips', 'pod', 'sucr', 'csi']
+    allowed_metrics = ['mae', 'mse', 'rmse', 'ssim', 'psnr', 'snr', 'lpips', 'pod', 'sucr', 'csi', 'r2']
     invalid_metrics = set(metrics) - set(allowed_metrics)
     if len(invalid_metrics) != 0:
         raise ValueError(f'metric {invalid_metrics} is not supported.')
@@ -273,6 +274,13 @@ def metric(pred, true, mean=None, std=None, metrics=['mae', 'mse'],
             for f in range(pred.shape[1]):
                 lpips += cal_lpips(pred[b, f], true[b, f])
         eval_res['lpips'] = lpips / (pred.shape[0] * pred.shape[1])
+
+    if 'r2' in metrics:
+        r2 = 0
+        for b in range(pred.shape[0]):
+            for f in range(pred.shape[1]):
+                r2 += r2_score(pred[b, f].flatten(), true[b, f].flatten())
+        eval_res['r2'] = r2 / (pred.shape[0] * pred.shape[1])
 
     if return_log:
         for k, v in eval_res.items():

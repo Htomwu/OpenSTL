@@ -5,9 +5,9 @@ from timm.optim.adafactor import Adafactor
 from timm.optim.adahessian import Adahessian
 from timm.optim.adamp import AdamP
 from timm.optim.lookahead import Lookahead
-from timm.optim.nadam import Nadam
+from torch.optim import NAdam
 from timm.optim.nvnovograd import NvNovoGrad
-from timm.optim.radam import RAdam
+from torch.optim import RAdam
 from timm.optim.rmsprop_tf import RMSpropTF
 from timm.optim.sgdp import SGDP
 
@@ -101,7 +101,7 @@ def get_optim_scheduler(args, epoch, model, steps_per_epoch):
     elif opt_lower == 'adamw':
         optimizer = optim.AdamW(parameters, **opt_args)
     elif opt_lower == 'nadam':
-        optimizer = Nadam(parameters, **opt_args)
+        optimizer = NAdam(parameters, **opt_args)
     elif opt_lower == 'radam':
         optimizer = RAdam(parameters, **opt_args)
     elif opt_lower == 'adamp':

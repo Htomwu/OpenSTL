@@ -220,4 +220,11 @@ dataset_parameters = {
         'data_name': 'vil', 
         'metrics': ['mse', 'mae', 'pod', 'sucr', 'csi', 'lpips'],
     },
+'spi': {  # total_cloud_cover
+        'in_shape': [4, 1, 180, 360],
+        'pre_seq_length': 4,
+        'aft_seq_length': 1,
+        'total_length': 5,
+        'metrics': ['rmse', 'r2', 'mae', 'psnr', 'ssim', 'mse'],
+    },
 }

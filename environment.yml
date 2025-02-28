@@ -1,4 +1,4 @@
-name: OpenSTL
+name: OpenSTL-new
 channels:
   - pytorch
   - conda-forge
