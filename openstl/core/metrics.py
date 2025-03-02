@@ -284,18 +284,18 @@ def metric(pred, true, mean=None, std=None, metrics=['mae', 'mse'],
     if 'r2' in metrics:
         true_flat = true.flatten()
         pred_flat = pred.flatten()
-
-        print(true.shape)
-        print(np.var(true))
-
-        # 绘制直方图
-        plt.figure(figsize=(10, 6))
-        plt.hist(true_flat, bins=100, alpha=0.75, edgecolor='black')
-        plt.xlabel('Value')
-        plt.ylabel('Frequency')
-        plt.title('Distribution of Resized Data')
-        plt.grid(True)
-        plt.show()
+        #
+        # print(true.shape)
+        # print(np.var(true))
+        #
+        # # 绘制直方图
+        # plt.figure(figsize=(10, 6))
+        # plt.hist(true_flat, bins=100, alpha=0.75, edgecolor='black')
+        # plt.xlabel('Value')
+        # plt.ylabel('Frequency')
+        # plt.title('Distribution of Resized Data')
+        # plt.grid(True)
+        # plt.show()
 
         eval_res['r2'] = r2_score(pred_flat, true_flat)
 
