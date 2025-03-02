@@ -6,6 +6,7 @@ from torch.utils.data import Dataset
 from sklearn.preprocessing import MinMaxScaler
 from scipy.ndimage import zoom
 from openstl.datasets.utils import create_loader
+from sklearn.model_selection import train_test_split
 
 
 class SpiDataset(Dataset):
@@ -99,11 +100,7 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
     resized_data = np.expand_dims(resized_data, axis=1)  # 增加 channel 维度，使得数据形状变为 (time_steps, 1, lat, lon)
 
     # 步骤 6: 划分数据集
-    train_ratio = 0.8
-    train_end = int(train_ratio * time_steps)
-
-    train_data = resized_data[:train_end]
-    val_data = resized_data[train_end:]
+    train_data, val_data = train_test_split(resized_data, test_size=0.2, shuffle=False)
     test_data = val_data
 
     train_set = SpiDataset(train_data, pre_seq_length, aft_seq_length)
@@ -125,19 +122,39 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
 
 
 if __name__ == '__main__':
+    import matplotlib.pyplot as plt
+    import torch
+    import numpy as np
+
     dataloader_train, _, dataloader_test = \
-        load_data(batch_size=16,
+        load_data(batch_size=4,
                   val_batch_size=4,
                   data_root='../../data/',
                   num_workers=4,
-                  pre_seq_length=4, aft_seq_length=4)
+                  pre_seq_length=4, aft_seq_length=1)
 
     print(f"Train batches: {len(dataloader_train)}, Test batches: {len(dataloader_test)}")
 
-    for batch in dataloader_train:
-        print(f"Train batch - Input shape: {batch[0].shape}, Target shape: {batch[1].shape}")
-        break
+    # 获取测试数据的真实值
+    test_data_true = []
 
     for batch in dataloader_test:
-        print(f"Test batch - Input shape: {batch[0].shape}, Target shape: {batch[1].shape}")
-        break
+        _, labels = batch  # 假设 dataloader 返回 (输入数据, 真实标签)
+        test_data_true.append(labels.numpy())  # 转换为 NumPy 数组
+
+    # 合并所有批次的数据
+    test_data_true = np.concatenate(test_data_true, axis=0)  # 确保维度对齐
+
+    # 展平数据
+    flattened_data = test_data_true.flatten()
+
+    # 绘制直方图
+    plt.figure(figsize=(10, 6))
+    plt.hist(flattened_data, bins=100, alpha=0.75, edgecolor='black')
+    plt.xlabel('Value')
+    plt.ylabel('Frequency')
+    plt.title('Distribution of data on dataloader')
+    plt.grid(True)
+    plt.show()
+
+    print(dataloader_test.dataname)

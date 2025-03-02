@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import torch
 from sklearn.metrics import r2_score
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+import matplotlib.pyplot as plt
 
 try:
     import lpips
@@ -24,7 +26,7 @@ def _threshold(x, y, t):
 
 def MAE(pred, true, spatial_norm=False):
     if not spatial_norm:
-        return np.mean(np.abs(pred-true), axis=(0, 1)).sum()
+        return mean_absolute_error(true.flatten(), pred.flatten())
     else:
         norm = pred.shape[-1] * pred.shape[-2] * pred.shape[-3]
         return np.mean(np.abs(pred-true) / norm, axis=(0, 1)).sum()
@@ -32,7 +34,8 @@ def MAE(pred, true, spatial_norm=False):
 
 def MSE(pred, true, spatial_norm=False):
     if not spatial_norm:
-        return np.mean((pred-true)**2, axis=(0, 1)).sum()
+
+        return mean_squared_error(true.flatten(), pred.flatten())
     else:
         norm = pred.shape[-1] * pred.shape[-2] * pred.shape[-3]
         return np.mean((pred-true)**2 / norm, axis=(0, 1)).sum()
@@ -40,7 +43,7 @@ def MSE(pred, true, spatial_norm=False):
 
 def RMSE(pred, true, spatial_norm=False):
     if not spatial_norm:
-        return np.sqrt(np.mean((pred-true)**2, axis=(0, 1)).sum())
+        return np.sqrt(mean_squared_error(true.flatten(), pred.flatten()))
     else:
         norm = pred.shape[-1] * pred.shape[-2] * pred.shape[-3]
         return np.sqrt(np.mean((pred-true)**2 / norm, axis=(0, 1)).sum())
@@ -186,9 +189,12 @@ def metric(pred, true, mean=None, std=None, metrics=['mae', 'mse'],
     Returns:
         dict: evaluation results
     """
-    if mean is not None and std is not None:
-        pred = pred * std + mean
-        true = true * std + mean
+
+
+
+    # if mean is not None and std is not None:
+    #     pred = pred * std + mean
+    #     true = true * std + mean
     eval_res = {}
     eval_log = ""
     allowed_metrics = ['mae', 'mse', 'rmse', 'ssim', 'psnr', 'snr', 'lpips', 'pod', 'sucr', 'csi', 'r2']
@@ -276,11 +282,22 @@ def metric(pred, true, mean=None, std=None, metrics=['mae', 'mse'],
         eval_res['lpips'] = lpips / (pred.shape[0] * pred.shape[1])
 
     if 'r2' in metrics:
-        r2 = 0
-        for b in range(pred.shape[0]):
-            for f in range(pred.shape[1]):
-                r2 += r2_score(pred[b, f].flatten(), true[b, f].flatten())
-        eval_res['r2'] = r2 / (pred.shape[0] * pred.shape[1])
+        true_flat = true.flatten()
+        pred_flat = pred.flatten()
+
+        print(true.shape)
+        print(np.var(true))
+
+        # 绘制直方图
+        plt.figure(figsize=(10, 6))
+        plt.hist(true_flat, bins=100, alpha=0.75, edgecolor='black')
+        plt.xlabel('Value')
+        plt.ylabel('Frequency')
+        plt.title('Distribution of Resized Data')
+        plt.grid(True)
+        plt.show()
+
+        eval_res['r2'] = r2_score(pred_flat, true_flat)
 
     if return_log:
         for k, v in eval_res.items():
