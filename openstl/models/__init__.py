@@ -1,6 +1,7 @@
 # Copyright (c) CAIRI AI Lab. All rights reserved
 
 from .convlstm_model import ConvLSTM_Model
+from .dconvlstm_model import DConvLSTM_Model
 from .e3dlstm_model import E3DLSTM_Model
 from .mau_model import MAU_Model
 from .mim_model import MIM_Model
@@ -15,5 +16,5 @@ from .swinlstm_model import SwinLSTM_D_Model, SwinLSTM_B_Model
 __all__ = [
     'ConvLSTM_Model', 'E3DLSTM_Model', 'MAU_Model', 'MIM_Model', 'PhyDNet_Model',
     'PredRNN_Model', 'PredRNNpp_Model', 'PredRNNv2_Model', 'SimVP_Model',
-    "MMVP_Model", 'SwinLSTM_D_Model', 'SwinLSTM_B_Model'
+    "MMVP_Model", 'SwinLSTM_D_Model', 'SwinLSTM_B_Model', 'DConvLSTM_Model'
 ]
