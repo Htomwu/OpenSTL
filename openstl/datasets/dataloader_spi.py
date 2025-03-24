@@ -47,8 +47,8 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
               distributed=False, use_augment=False, use_prefetcher=False, drop_last=False):
 
     # 加载数据
-    file_path = os.path.join(data_root, "era5", "Monthly_SPI-3_from_ERA5_195901-202212.nc")
-    data = xr.open_dataset(file_path)['spi'].values  # 假设 'spi' 是变量名
+    file_path = os.path.join(data_root, "era5", "Monthly_SPEI-3_from_ERA5_195901-202212.nc")
+    data = xr.open_dataset(file_path)['spei'].values  # 假设 'spi' 是变量名
 
     # 步骤 1: 删除时间维度上全为 NaN 的值
     data = data[~np.isnan(data).all(axis=(1, 2))]

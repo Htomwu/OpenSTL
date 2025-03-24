@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from openstl.modules import SpatioTemporalLSTMCellv2
-
+import numpy as np
 
 class PredRNNv2_Model(nn.Module):
     r"""PredRNNv2 Model
@@ -46,6 +46,8 @@ class PredRNNv2_Model(nn.Module):
         # [batch, length, height, width, channel] -> [batch, length, channel, height, width]
         device = frames_tensor.device
         frames = frames_tensor.permute(0, 1, 4, 2, 3).contiguous()
+        if isinstance(mask_true, np.ndarray):
+            mask_true = torch.from_numpy(mask_true).to(device)
         mask_true = mask_true.permute(0, 1, 4, 2, 3).contiguous()
 
         batch = frames.shape[0]

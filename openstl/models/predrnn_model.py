@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 import torch.nn as nn
 
@@ -39,6 +40,8 @@ class PredRNN_Model(nn.Module):
         # [batch, length, height, width, channel] -> [batch, length, channel, height, width]
         device = frames_tensor.device
         frames = frames_tensor.permute(0, 1, 4, 2, 3).contiguous()
+        if isinstance(mask_true, np.ndarray):
+            mask_true = torch.from_numpy(mask_true).to(device)
         mask_true = mask_true.permute(0, 1, 4, 2, 3).contiguous()
 
         batch = frames.shape[0]
