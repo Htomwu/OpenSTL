@@ -41,6 +41,18 @@ def load_data(dataname, batch_size, val_batch_size, num_workers, data_root, dist
     elif dataname == 'spi':
         from .dataloader_spi import load_data
         return load_data(batch_size, val_batch_size, data_root, num_workers, **cfg_dataloader)
+    elif dataname == 'spi-3':
+        from .dataloader_spi3 import load_data
+        return load_data(batch_size, val_batch_size, data_root, num_workers, **cfg_dataloader)
+    elif dataname == 'spi-6':
+        from .dataloader_spi6 import load_data
+        return load_data(batch_size, val_batch_size, data_root, num_workers, **cfg_dataloader)
+    elif dataname == 'spei-3':
+        from .dataloader_spei3 import load_data
+        return load_data(batch_size, val_batch_size, data_root, num_workers, **cfg_dataloader)
+    elif dataname == 'spei-6':
+        from .dataloader_spei6 import load_data
+        return load_data(batch_size, val_batch_size, data_root, num_workers, **cfg_dataloader)
     elif 'weather' in dataname:  # 'weather', 'weather_t2m', etc.
         from .dataloader_weather import load_data
         data_split_pool = ['5_625', '2_8125', '1_40625']

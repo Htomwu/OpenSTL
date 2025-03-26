@@ -42,9 +42,9 @@ def load_data(batch_size, val_batch_size, data_root, num_workers=4,
               distributed=False, use_augment=False, use_prefetcher=False, drop_last=False):
 
     # 加载数据
-    train_data = np.load(os.path.join(data_root, "processed_data", "SPI-3", "train_data_180x360.npy"))
-    val_data = np.load(os.path.join(data_root, "processed_data", "SPI-3", "val_data_180x360.npy"))
-    test_data = np.load(os.path.join(data_root, "processed_data", "SPI-3", "test_data_180x360.npy"))
+    train_data = np.load(os.path.join(data_root, "processed_data", "SPI-6", "train_data_180x360.npy"))
+    val_data = np.load(os.path.join(data_root, "processed_data", "SPI-6", "val_data_180x360.npy"))
+    test_data = np.load(os.path.join(data_root, "processed_data", "SPI-6", "test_data_180x360.npy"))
 
     train_set = SpiDataset(train_data, pre_seq_length, aft_seq_length)
     val_set = SpiDataset(val_data, pre_seq_length, aft_seq_length)
