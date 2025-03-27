@@ -228,7 +228,7 @@ dataset_parameters = {
             'metrics': ['rmse', 'r2', 'mae', 'psnr', 'ssim', 'mse'],
         },
     'spi-3': {  # total_cloud_cover
-                'in_shape': [4, 1, 180, 360],
+                'in_shape': [4, 1, 256, 256],
                 'pre_seq_length': 4,
                 'aft_seq_length': 1,
                 'total_length': 5,

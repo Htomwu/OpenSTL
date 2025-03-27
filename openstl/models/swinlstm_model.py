@@ -65,7 +65,7 @@ class SwinLSTM_B_Model(nn.Module):
         T, C, H, W = configs.in_shape
         # assert H == W, 'Only support H = W for image input'
         self.configs = configs
-        self.ST = STconvert_tom(img_size=(H, W), patch_size=configs.patch_size, in_chans=C,
+        self.ST = STconvert(img_size=(H, W), patch_size=configs.patch_size, in_chans=C,
                             embed_dim=configs.embed_dim, depths=configs.depths,
                             num_heads=configs.num_heads, window_size=configs.window_size)
         self.MSE_criterion = nn.MSELoss()
