@@ -282,8 +282,10 @@ def metric(pred, true, mean=None, std=None, metrics=['mae', 'mse'],
         eval_res['lpips'] = lpips / (pred.shape[0] * pred.shape[1])
 
     if 'r2' in metrics:
-        true_flat = true.flatten()
-        pred_flat = pred.flatten()
+        all_trues = np.concatenate(true, axis=0)
+        all_preds = np.concatenate(pred, axis=0)
+        true_flat = all_trues.flatten()
+        pred_flat = all_preds.flatten()
         #
         # print(true.shape)
         # print(np.var(true))

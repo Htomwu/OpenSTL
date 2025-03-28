@@ -1,3 +1,5 @@
+from configs.era5.TAU import epochs
+
 method = 'ConvLSTM'
 # reverse scheduled sampling
 reverse_scheduled_sampling = 0
